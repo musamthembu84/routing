@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import za.co.discovery.assignment.musa.mthembu.model.Traffic;
 
 @Repository
-public interface TrafficRepository extends CrudRepository<Traffic,String> {
+public interface TrafficRepository extends CrudRepository<Traffic,Integer> {
 }

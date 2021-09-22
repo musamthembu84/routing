@@ -6,7 +6,6 @@ import java.util.List;
 public class Vertexs implements Comparable<Vertexs> {
 
 
-
     private String name;
     private List<Edges> adjacenciesList;
     private boolean visited;

@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Traffic {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy =  GenerationType.AUTO)
     private int Id;
     private String origin;
     private String destination;
