@@ -3,19 +3,20 @@ package za.co.discovery.assignment.musa.mthembu;
 public class DijkstraMain {
 
     public static void main(String[] args) {
+/*
         Vertexs vertexsA = new Vertexs("A");
         Vertexs vertexsB = new Vertexs("B");
         Vertexs vertexsC = new Vertexs("C");
         Vertexs vertexsD = new Vertexs("D");
         Vertexs vertexsE = new Vertexs("E");
 
-        vertexsA.addNeighbour(new Edges(10, vertexsA, vertexsC));
-        vertexsA.addNeighbour(new Edges(17, vertexsA, vertexsB));
-        vertexsC.addNeighbour(new Edges(5, vertexsC, vertexsB));
-        vertexsC.addNeighbour(new Edges(9, vertexsC, vertexsD));
-        vertexsC.addNeighbour(new Edges(11, vertexsC, vertexsE));
-        vertexsB.addNeighbour(new Edges(1, vertexsB, vertexsD));
-        vertexsD.addNeighbour(new Edges(6, vertexsD, vertexsE));
+        vertexsA.addNeighbour(new Edge(10, vertexsA, vertexsC));
+        vertexsA.addNeighbour(new Edge(17, vertexsA, vertexsB));
+        vertexsC.addNeighbour(new Edge(5, vertexsC, vertexsB));
+        vertexsC.addNeighbour(new Edge(9, vertexsC, vertexsD));
+        vertexsC.addNeighbour(new Edge(11, vertexsC, vertexsE));
+        vertexsB.addNeighbour(new Edge(1, vertexsB, vertexsD));
+        vertexsD.addNeighbour(new Edge(6, vertexsD, vertexsE));
 
         DijkstraShortestPath shortestPath = new DijkstraShortestPath();
         shortestPath.computeShortestPath(vertexsA);
@@ -37,5 +38,10 @@ public class DijkstraMain {
         System.out.println("Shortest Path from A to C: "+shortestPath.getShortestPathTo(vertexsC));
         System.out.println("Shortest Path from A to D: "+shortestPath.getShortestPathTo(vertexsD));
         System.out.println("Shortest Path from A to E: "+shortestPath.getShortestPathTo(vertexsE));
+
+
+    }
+
+ */
     }
 }

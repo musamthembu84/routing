@@ -1,24 +1,24 @@
-package za.co.discovery.assignment.musa.mthembu;
+package za.co.discovery.assignment.musa.mthembu.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Vertexs implements Comparable<Vertexs> {
 
+public class Vertex implements Comparable<Vertex>{
 
     private String name;
-    private List<Edges> adjacenciesList;
+    private List<Edge> adjacenciesList;
     private boolean visited;
-    private Vertexs predecessor;
+    private Vertex predecessor;
     private double distance = Double.MAX_VALUE;
 
-    public Vertexs(String name) {
+    public Vertex(String name) {
         this.name = name;
         this.adjacenciesList = new ArrayList<>();
     }
 
-    public void addNeighbour(Edges edges){
-        this.adjacenciesList.add(edges);
+    public void addNeighbour(Edge edge){
+        this.adjacenciesList.add(edge);
     }
 
     public String getName() {
@@ -29,11 +29,11 @@ public class Vertexs implements Comparable<Vertexs> {
         this.name = name;
     }
 
-    public List<Edges> getAdjacenciesList() {
+    public List<Edge> getAdjacenciesList() {
         return adjacenciesList;
     }
 
-    public void setAdjacenciesList(List<Edges> adjacenciesList) {
+    public void setAdjacenciesList(List<Edge> adjacenciesList) {
         this.adjacenciesList = adjacenciesList;
     }
 
@@ -45,11 +45,11 @@ public class Vertexs implements Comparable<Vertexs> {
         this.visited = visited;
     }
 
-    public Vertexs getPredecessor() {
+    public Vertex getPredecessor() {
         return predecessor;
     }
 
-    public void setPredecessor(Vertexs predecessor) {
+    public void setPredecessor(Vertex predecessor) {
         this.predecessor = predecessor;
     }
 
@@ -67,7 +67,7 @@ public class Vertexs implements Comparable<Vertexs> {
     }
 
     @Override
-    public int compareTo(Vertexs o) {
+    public int compareTo(Vertex o) {
         return 0;
     }
 }

@@ -1,12 +1,12 @@
-package za.co.discovery.assignment.musa.mthembu;
+package za.co.discovery.assignment.musa.mthembu.algorithm;
 
-public class Edges {
+public class Edge {
 
     private double weight;
-    private Vertexs startVertexs;
-    private Vertexs targetVertexs;
+    private Vertex startVertexs;
+    private Vertex targetVertexs;
 
-    public Edges(double weight, Vertexs startVertexs, Vertexs targetVertexs) {
+    public Edge(double weight, Vertex startVertexs, Vertex targetVertexs) {
         this.weight = weight;
         this.startVertexs = startVertexs;
         this.targetVertexs = targetVertexs;
@@ -20,19 +20,19 @@ public class Edges {
         this.weight = weight;
     }
 
-    public Vertexs getStartVertex() {
+    public Vertex getStartVertex() {
         return startVertexs;
     }
 
-    public void setStartVertex(Vertexs startVertexs) {
+    public void setStartVertex(Vertex startVertexs) {
         this.startVertexs = startVertexs;
     }
 
-    public Vertexs getTargetVertex() {
+    public Vertex getTargetVertex() {
         return targetVertexs;
     }
 
-    public void setTargetVertex(Vertexs targetVertexs) {
+    public void setTargetVertex(Vertex targetVertexs) {
         this.targetVertexs = targetVertexs;
     }
 }
