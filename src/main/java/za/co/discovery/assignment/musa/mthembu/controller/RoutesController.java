@@ -113,34 +113,82 @@ public class RoutesController {
     }
     @GetMapping(value = "/calculatePoints")
     public void getRoutes(){
+        System.out.println("testing");
 
-        List<Vertex> vertexNames = new ArrayList<>();
-        List<Vertex> realVertex = new ArrayList<>();
-
-
+        List<Vertex> vertices = new ArrayList<>();
         for(String names:calculateRoutesService.uniqueEntries()){
-           vertexNames.add(new Vertex(names));
+            vertices.add(new Vertex(names));
+
         }
 
-        for(Vertex v: vertexNames){
-            for (Traffic traffic : calculateRoutesService.getAllRoutes()){
-                if(v.getName().equals(traffic.getOrigin())){
-                    v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getDestination())));
-                    realVertex.add(v);
-                    System.out.println(
-                    "Name :" + v.getName()+ " Origin :"+ traffic.getOrigin() + " Destination :" + traffic.getDestination()
-                    +" Weight :" + traffic.getTraffic());
-                }
+        Vertex vertexA = new Vertex("A");
+        Vertex vertexB = new Vertex("B");
+        Vertex vertexC = new Vertex("C");
+        Vertex vertexD = new Vertex("D");
+        Vertex vertexE = new Vertex("E");
+
+        for (Traffic traffic : calculateRoutesService.getAllRoutes()){
+            if(traffic.getOrigin().equals(vertexA.getName())){
+                System.out.println();
+                vertexA.addNeighbour(new Edge(traffic.getTraffic(),vertexA,new Vertex(traffic.getOrigin())));
             }
+            if(traffic.getOrigin().equals(vertexB.getName())){
+                vertexB.addNeighbour(new Edge(traffic.getTraffic(),vertexB,new Vertex(traffic.getOrigin())));
+            }
+            if(traffic.getOrigin().equals(vertexC.getName())){
+                vertexC.addNeighbour(new Edge(traffic.getTraffic(),vertexC,new Vertex(traffic.getOrigin())));
+            }
+            if(traffic.getOrigin().equals(vertexD.getName())){
+                vertexD.addNeighbour(new Edge(traffic.getTraffic(),vertexD,new Vertex(traffic.getOrigin())));
+            }
+            if(traffic.getOrigin().equals(vertexE.getName())){
+                vertexE.addNeighbour(new Edge(traffic.getTraffic(),vertexE,new Vertex(traffic.getOrigin())));
+            }
+
         }
 
 
-          DijkstraShortestPath shortestPath = new DijkstraShortestPath();
-        for (int  v = 0; v<realVertex.size();v++){
-            shortestPath.calculateShortestPath(realVertex.get(1));
-            System.out.println("Shortest Path from "+realVertex.get(1)+" to " +realVertex.get(v)+" : "+shortestPath.getShortestPathTo(realVertex.get(v)));
 
-        }
+        DijkstraShortestPath shortestPath = new DijkstraShortestPath();
+        shortestPath.calculateShortestPath(vertexA);
+
+
+        System.out.println("Shortest Path from A to B: "+shortestPath.getShortestPathTo(vertexB));
+        System.out.println("Shortest Path from A to C: "+shortestPath.getShortestPathTo(vertexC));
+        System.out.println("Shortest Path from A to D: "+shortestPath.getShortestPathTo(vertexD));
+        System.out.println("Shortest Path from A to E: "+shortestPath.getShortestPathTo(vertexE));
+
+
+
+//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(3)+":" +
+//                " "+displayVertex.get(3));
+//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(4)+":" +
+//                " "+displayVertex.get(4));
+//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(5)+":" +
+//                " "+displayVertex.get(5));
+
+
+
+
+//        for(Vertex v: vertices){
+//            for (Traffic traffic : calculateRoutesService.getAllRoutes()){
+//                if(v.getName().equals(traffic.getOrigin())){
+//                    v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getDestination())));
+//                    realVertex.add(v);
+//                    System.out.println(
+//                    "Name :" + v.getName()+ " Origin :"+ traffic.getOrigin() + " Destination :" + traffic.getDestination()
+//                    +" Weight :" + traffic.getTraffic());
+//                }
+//            }
+//        }
+//
+//
+//          DijkstraShortestPath shortestPath = new DijkstraShortestPath();
+//        for (int  v = 0; v<realVertex.size();v++){
+//            shortestPath.calculateShortestPath(realVertex.get(1));
+//            System.out.println("Shortest Path from "+realVertex.get(1)+" to " +realVertex.get(v)+" : "+shortestPath.getShortestPathTo(realVertex.get(v)));
+//
+//        }
 
     }
 

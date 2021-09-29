@@ -29,7 +29,6 @@ public class ImportDataService {
     }
 
     public long findAllTrafficRecords(){
-        trafficRepository.count();
         return trafficRepository.count();
     }
 

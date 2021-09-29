@@ -8,18 +8,19 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
-import za.co.discovery.assignment.musa.mthembu.model.Traffic;
-import za.co.discovery.assignment.musa.mthembu.repository.TrafficRepository;
-
 import java.util.Arrays;
 import java.util.List;
 import static org.mockito.Mockito.*;
+
+import za.co.discovery.assignment.musa.mthembu.model.Traffic;
+import za.co.discovery.assignment.musa.mthembu.repository.TrafficRepository;
 
 
 
 public class TrafficServiceTest {
 
     private TrafficService trafficService;
+
     @Mock
     private TrafficRepository trafficRepository;
     @Mock
@@ -30,6 +31,7 @@ public class TrafficServiceTest {
         MockitoAnnotations.initMocks(this);
         trafficService = new TrafficService(trafficRepository);
     }
+
 
 
     @Test
@@ -48,22 +50,23 @@ public class TrafficServiceTest {
 
     @Test
     public void testDeleteTrafficEntry() {
+        trafficRepository.save(traffic);
         doNothing().when(trafficRepository).deleteById(1);
         TrafficRepository trafficRepository = Mockito.mock(TrafficRepository.class);
         trafficService.deleteTrafficEntry(1);
         verify(trafficRepository, times(1)).deleteById(1);
+
+
     }
 
 
     @Test
     public void testFindingAllTrafficRecords() {
-        when(trafficRepository.findAll()).thenReturn(createSimpleEntry());
-        List<Traffic> trafficEntry = trafficService.findAllTrafficRecords();
-        assertThat(createSimpleEntry(), is(equalTo(trafficEntry)));
-        Mockito.when(trafficRepository.findAll()).thenReturn(createSimpleEntry());
-    }
+        List<Traffic> items = Arrays.asList(new Traffic("earth","mars",0.32));
 
-    private List<Traffic>  createSimpleEntry(){
-        return Arrays.asList(new Traffic("earth","mars",0.32));
-   }
+        when(trafficRepository.findAll()).thenReturn(items);
+        List<Traffic> trafficEntry = trafficService.findAllTrafficRecords();
+        assertThat(items, is(equalTo(trafficEntry)));
+        Mockito.when(trafficRepository.findAll()).thenReturn(items);
+    }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 @Component
 public class ExcelHelper {
+    private static final String TrafficData = "Traffic";
 
     public List<Traffic>  readFile(String path) {
 
@@ -24,7 +25,7 @@ public class ExcelHelper {
             Workbook workbook = WorkbookFactory.create(new File(path));
 
             for(Sheet sheet: workbook) {
-                if(sheet.getSheetName().equals("Traffic")){
+                if(sheet.getSheetName().equals(TrafficData)){
                     for (Row row: Iterables.skip( sheet, 1)) {
                         Traffic traffic = new Traffic();
                         createTrafficObject(traffic
