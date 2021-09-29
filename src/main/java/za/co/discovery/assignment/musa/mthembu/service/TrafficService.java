@@ -18,7 +18,7 @@ public class TrafficService {
         this.trafficRepository = trafficRepository;
     }
 
-    public void addTrafficEntry(final Traffic trafficRecord){
+    public void addTrafficEntry(Traffic trafficRecord){
         trafficRepository.save(trafficRecord);
     }
 

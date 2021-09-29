@@ -12,9 +12,11 @@ import za.co.discovery.assignment.musa.mthembu.exceptions.ApplicationException;
 import za.co.discovery.assignment.musa.mthembu.exceptions.GlobalExceptionHandler;
 import za.co.discovery.assignment.musa.mthembu.model.Traffic;
 import za.co.discovery.assignment.musa.mthembu.responses.ApplicationResponse;
+import za.co.discovery.assignment.musa.mthembu.service.CalculateRoutesService;
 import za.co.discovery.assignment.musa.mthembu.service.ImportDataService;
 import za.co.discovery.assignment.musa.mthembu.service.TrafficService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,14 +28,17 @@ public class RoutesController {
     private final TrafficService trafficService;
     private final GlobalExceptionHandler globalExceptionHandler;
     private final ImportDataService importDataService;
+    private final CalculateRoutesService calculateRoutesService;
 
     @Autowired
     public RoutesController(TrafficService trafficService,
                             GlobalExceptionHandler globalExceptionHandler,
+                            CalculateRoutesService calculateRoutesService,
                             ImportDataService importDataService) {
         this.trafficService = trafficService;
         this.globalExceptionHandler = globalExceptionHandler;
         this.importDataService = importDataService;
+        this.calculateRoutesService = calculateRoutesService;
     }
 
     @PostMapping(value = "/add-entry")
@@ -101,46 +106,42 @@ public class RoutesController {
         return importDataService.findAllTrafficRecords();
     }
 
+    private void AddNeighbours(Traffic traffic, List<Vertex> vertexNames){
+        for(Vertex v: vertexNames){
+            v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getOrigin())));
+        }
+    }
     @GetMapping(value = "/calculatePoints")
     public void getRoutes(){
-        Vertex vertexsA = new Vertex("A");
-        Vertex vertexsB = new Vertex("B");
-        Vertex vertexsC = new Vertex("C");
-        Vertex vertexsD = new Vertex("D");
-        Vertex vertexsE = new Vertex("E");
+
+        List<Vertex> vertexNames = new ArrayList<>();
+        List<Vertex> realVertex = new ArrayList<>();
 
 
-        vertexsA.addNeighbour(new Edge(10, vertexsA, vertexsC));
-        vertexsA.addNeighbour(new Edge(17, vertexsA, vertexsB));
+        for(String names:calculateRoutesService.uniqueEntries()){
+           vertexNames.add(new Vertex(names));
+        }
+
+        for(Vertex v: vertexNames){
+            for (Traffic traffic : calculateRoutesService.getAllRoutes()){
+                if(v.getName().equals(traffic.getOrigin())){
+                    v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getDestination())));
+                    realVertex.add(v);
+                    System.out.println(
+                    "Name :" + v.getName()+ " Origin :"+ traffic.getOrigin() + " Destination :" + traffic.getDestination()
+                    +" Weight :" + traffic.getTraffic());
+                }
+            }
+        }
 
 
-        vertexsC.addNeighbour(new Edge(5, vertexsC, vertexsB));
-        vertexsC.addNeighbour(new Edge(9, vertexsC, vertexsD));
-        vertexsC.addNeighbour(new Edge(11, vertexsC, vertexsE));
+          DijkstraShortestPath shortestPath = new DijkstraShortestPath();
+        for (int  v = 0; v<realVertex.size();v++){
+            shortestPath.calculateShortestPath(realVertex.get(1));
+            System.out.println("Shortest Path from "+realVertex.get(1)+" to " +realVertex.get(v)+" : "+shortestPath.getShortestPathTo(realVertex.get(v)));
 
+        }
 
-        vertexsB.addNeighbour(new Edge(1, vertexsB, vertexsD));
-        vertexsD.addNeighbour(new Edge(6, vertexsD, vertexsE));
-
-        DijkstraShortestPath shortestPath = new DijkstraShortestPath();
-        shortestPath.computeShortestPath(vertexsA);
-
-        System.out.println("======================================");
-        System.out.println("Calculating minimum distance");
-        System.out.println("======================================");
-
-        System.out.println("Minimum distance from A to B: "+ vertexsB.getDistance());
-        System.out.println("Minimum distance from A to C: "+ vertexsC.getDistance());
-        System.out.println("Minimum distance from A to D: "+ vertexsD.getDistance());
-        System.out.println("Minimum distance from A to E: "+ vertexsE.getDistance());
-
-        System.out.println("=====================   =================");
-        System.out.println("Calculating Paths");
-        System.out.println("======================================");
-
-        System.out.println("Shortest Path from A to B: "+shortestPath.getShortestPathTo(vertexsB));
-        System.out.println("Shortest Path from A to C: "+shortestPath.getShortestPathTo(vertexsC));
-        System.out.println("Shortest Path from A to D: "+shortestPath.getShortestPathTo(vertexsD));
-        System.out.println("Shortest Path from A to E: "+shortestPath.getShortestPathTo(vertexsE));
     }
+
 }

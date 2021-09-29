@@ -1,18 +1,16 @@
 package za.co.discovery.assignment.musa.mthembu.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.co.discovery.assignment.musa.mthembu.helper.ExcelHelper;
-import za.co.discovery.assignment.musa.mthembu.model.Traffic;
 import za.co.discovery.assignment.musa.mthembu.repository.TrafficRepository;
-import java.util.List;
 
 @Service
 public class ImportDataService {
 
-    private TrafficRepository trafficRepository;
-    private ExcelHelper excelHelper;
+    private final TrafficRepository trafficRepository;
+    private final ExcelHelper excelHelper;
+    private final static String FAILURE_MESSAGE = "Failed to store data from excel";
 
     @Autowired
     public ImportDataService(TrafficRepository trafficRepository, ExcelHelper excelHelper) {
@@ -23,15 +21,10 @@ public class ImportDataService {
     public void saveAllRecordsFromExcel(String path){
 
         try{
-            List<Traffic> trafficList = excelHelper.readFile(path);
-            System.out.println("size of data" + trafficList.size());
-            trafficRepository.saveAll(trafficList);
-            System.out.println(trafficRepository.count());
-
-
+            trafficRepository.saveAll(excelHelper.readFile(path));
         }
         catch (Exception e){
-            throw  new RuntimeException("failed to store data from excel" + e.getMessage());
+            throw  new RuntimeException(FAILURE_MESSAGE+ e.getMessage());
         }
     }
 
