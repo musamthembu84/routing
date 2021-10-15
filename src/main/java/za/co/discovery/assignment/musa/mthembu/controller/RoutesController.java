@@ -1,22 +1,21 @@
 package za.co.discovery.assignment.musa.mthembu.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import za.co.discovery.assignment.musa.mthembu.algorithm.DijkstraShortestPath;
-import za.co.discovery.assignment.musa.mthembu.algorithm.Edge;
-import za.co.discovery.assignment.musa.mthembu.algorithm.Vertex;
+import za.co.discovery.assignment.musa.mthembu.utils.Vertex;
+import za.co.discovery.assignment.musa.mthembu.dto.RoutingDto;
 import za.co.discovery.assignment.musa.mthembu.exceptions.ApplicationException;
 import za.co.discovery.assignment.musa.mthembu.exceptions.GlobalExceptionHandler;
 import za.co.discovery.assignment.musa.mthembu.model.Traffic;
 import za.co.discovery.assignment.musa.mthembu.responses.ApplicationResponse;
 import za.co.discovery.assignment.musa.mthembu.service.CalculateRoutesService;
 import za.co.discovery.assignment.musa.mthembu.service.ImportDataService;
+import za.co.discovery.assignment.musa.mthembu.service.RouteRequestService;
 import za.co.discovery.assignment.musa.mthembu.service.TrafficService;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,16 +28,20 @@ public class RoutesController {
     private final GlobalExceptionHandler globalExceptionHandler;
     private final ImportDataService importDataService;
     private final CalculateRoutesService calculateRoutesService;
+    private final RouteRequestService routeRequestService;
+
 
     @Autowired
     public RoutesController(TrafficService trafficService,
                             GlobalExceptionHandler globalExceptionHandler,
                             CalculateRoutesService calculateRoutesService,
-                            ImportDataService importDataService) {
+                            ImportDataService importDataService,
+                            RouteRequestService routeRequestService) {
         this.trafficService = trafficService;
         this.globalExceptionHandler = globalExceptionHandler;
         this.importDataService = importDataService;
         this.calculateRoutesService = calculateRoutesService;
+        this.routeRequestService = routeRequestService;
     }
 
     @PostMapping(value = "/add-entry")
@@ -90,106 +93,26 @@ public class RoutesController {
         return trafficService.findAllTrafficRecords();
     }
 
-    @PostMapping(value = "/save-all")
-    public  HttpEntity<ApplicationResponse> saveEntriesFile(){
+
+
+    @PostMapping(value = "/saveDataFromExcelFile")
+    public  HttpEntity<ApplicationResponse> saveEntriesFile() throws Exception{
         try{
-            importDataService.saveAllRecordsFromExcel("C:\\Users\\Musa\\Documents\\data.xlsx");
+
+
+            importDataService.saveAllRecordsFromExcel(importDataService.readResource());
             return new ResponseEntity<>(new ApplicationResponse(CREATED_SUCCESSFULLY,
                     HttpStatus.OK.value()), HttpStatus.ACCEPTED);
         }
-        catch (ApplicationException exception){
+        catch (ApplicationException  exception){
             return globalExceptionHandler.handleException(exception);
         }
     }
-    @GetMapping(value = "/get-entries-all")
-    public  long getTrafficEntries(){
-        return importDataService.findAllTrafficRecords();
-    }
-
-    private void AddNeighbours(Traffic traffic, List<Vertex> vertexNames){
-        for(Vertex v: vertexNames){
-            v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getOrigin())));
-        }
-    }
-    @GetMapping(value = "/calculatePoints")
-    public void getRoutes(){
-        System.out.println("testing");
-
-        List<Vertex> vertices = new ArrayList<>();
-        for(String names:calculateRoutesService.uniqueEntries()){
-            vertices.add(new Vertex(names));
-
-        }
-
-        Vertex vertexA = new Vertex("A");
-        Vertex vertexB = new Vertex("B");
-        Vertex vertexC = new Vertex("C");
-        Vertex vertexD = new Vertex("D");
-        Vertex vertexE = new Vertex("E");
-
-        for (Traffic traffic : calculateRoutesService.getAllRoutes()){
-            if(traffic.getOrigin().equals(vertexA.getName())){
-                System.out.println();
-                vertexA.addNeighbour(new Edge(traffic.getTraffic(),vertexA,new Vertex(traffic.getOrigin())));
-            }
-            if(traffic.getOrigin().equals(vertexB.getName())){
-                vertexB.addNeighbour(new Edge(traffic.getTraffic(),vertexB,new Vertex(traffic.getOrigin())));
-            }
-            if(traffic.getOrigin().equals(vertexC.getName())){
-                vertexC.addNeighbour(new Edge(traffic.getTraffic(),vertexC,new Vertex(traffic.getOrigin())));
-            }
-            if(traffic.getOrigin().equals(vertexD.getName())){
-                vertexD.addNeighbour(new Edge(traffic.getTraffic(),vertexD,new Vertex(traffic.getOrigin())));
-            }
-            if(traffic.getOrigin().equals(vertexE.getName())){
-                vertexE.addNeighbour(new Edge(traffic.getTraffic(),vertexE,new Vertex(traffic.getOrigin())));
-            }
-
-        }
 
 
-
-        DijkstraShortestPath shortestPath = new DijkstraShortestPath();
-        shortestPath.calculateShortestPath(vertexA);
-
-
-        System.out.println("Shortest Path from A to B: "+shortestPath.getShortestPathTo(vertexB));
-        System.out.println("Shortest Path from A to C: "+shortestPath.getShortestPathTo(vertexC));
-        System.out.println("Shortest Path from A to D: "+shortestPath.getShortestPathTo(vertexD));
-        System.out.println("Shortest Path from A to E: "+shortestPath.getShortestPathTo(vertexE));
-
-
-
-//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(3)+":" +
-//                " "+displayVertex.get(3));
-//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(4)+":" +
-//                " "+displayVertex.get(4));
-//        System.out.println("Minimum distance from"+displayVertex.get(2)+" to "+displayVertex.get(5)+":" +
-//                " "+displayVertex.get(5));
-
-
-
-
-//        for(Vertex v: vertices){
-//            for (Traffic traffic : calculateRoutesService.getAllRoutes()){
-//                if(v.getName().equals(traffic.getOrigin())){
-//                    v.addNeighbour(new Edge(traffic.getTraffic(),new Vertex(traffic.getOrigin()),new Vertex(traffic.getDestination())));
-//                    realVertex.add(v);
-//                    System.out.println(
-//                    "Name :" + v.getName()+ " Origin :"+ traffic.getOrigin() + " Destination :" + traffic.getDestination()
-//                    +" Weight :" + traffic.getTraffic());
-//                }
-//            }
-//        }
-//
-//
-//          DijkstraShortestPath shortestPath = new DijkstraShortestPath();
-//        for (int  v = 0; v<realVertex.size();v++){
-//            shortestPath.calculateShortestPath(realVertex.get(1));
-//            System.out.println("Shortest Path from "+realVertex.get(1)+" to " +realVertex.get(v)+" : "+shortestPath.getShortestPathTo(realVertex.get(v)));
-//
-//        }
-
+    @PostMapping(value = "/calculatePoints")
+    public List<Vertex> getRoutes(@RequestBody RoutingDto routingDto){
+        return  routeRequestService.shortestPathRoutes(routingDto);
     }
 
 }

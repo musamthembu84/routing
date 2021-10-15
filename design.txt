@@ -1,0 +1,4 @@
+*The design used the Dijkstra’s shortest path to sove this problem since it is a about finding the shortest path in a graph.
+*We are using the adjacency list as a representation of paths followed
+*The assumption in this case is that all the data must be loaded into the graph initally. 
+*In later releases we can improved by considering other algorithms which might perform better in a prodution setting such as BFS

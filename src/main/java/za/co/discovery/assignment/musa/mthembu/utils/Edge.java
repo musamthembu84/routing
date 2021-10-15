@@ -1,4 +1,4 @@
-package za.co.discovery.assignment.musa.mthembu.algorithm;
+package za.co.discovery.assignment.musa.mthembu.utils;
 
 public class Edge {
 

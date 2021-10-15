@@ -1,4 +1,4 @@
-package za.co.discovery.assignment.musa.mthembu.algorithm;
+package za.co.discovery.assignment.musa.mthembu.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;

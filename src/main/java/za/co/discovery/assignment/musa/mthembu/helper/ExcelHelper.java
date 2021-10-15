@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ExcelHelper {
@@ -44,6 +45,7 @@ public class ExcelHelper {
 
         return trafficArrayList;
     }
+
 
     private void createTrafficObject(Traffic traffic, String origin, String dest, double trafficValue){
         traffic.setOrigin(origin);

@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 import za.co.discovery.assignment.musa.mthembu.helper.ExcelHelper;
 import za.co.discovery.assignment.musa.mthembu.repository.TrafficRepository;
 
+import java.io.InputStream;
+import java.util.Objects;
+
+
 @Service
 public class ImportDataService {
 
@@ -27,9 +31,14 @@ public class ImportDataService {
             throw  new RuntimeException(FAILURE_MESSAGE+ e.getMessage());
         }
     }
+    public String readResource() {
+        String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource("data.xlsx")).getPath();
+        return filePath;
+    }
 
     public long findAllTrafficRecords(){
         return trafficRepository.count();
     }
+
 
 }

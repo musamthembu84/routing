@@ -16,6 +16,7 @@ import za.co.discovery.assignment.musa.mthembu.exceptions.GlobalExceptionHandler
 import za.co.discovery.assignment.musa.mthembu.model.Traffic;
 import za.co.discovery.assignment.musa.mthembu.service.CalculateRoutesService;
 import za.co.discovery.assignment.musa.mthembu.service.ImportDataService;
+import za.co.discovery.assignment.musa.mthembu.service.RouteRequestService;
 import za.co.discovery.assignment.musa.mthembu.service.TrafficService;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest
 public class RoutesControllerTest {
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,6 +39,8 @@ public class RoutesControllerTest {
     private  ImportDataService importDataService;
     @MockBean
     private  CalculateRoutesService calculateRoutesService;
+    @MockBean
+    private  RouteRequestService routeRequestService;
 
 
     private List<Traffic> trafficList;

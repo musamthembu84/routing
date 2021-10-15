@@ -31,4 +31,8 @@ public class CalculateRoutesService {
     public List<String> uniqueEntries(){
         return  trafficRepository.uniqueValues();
     }
+
+
+
+
 }
